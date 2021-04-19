@@ -46,7 +46,7 @@ for root, dirs, files in os.walk('share'):
 
 setup_args = {
     'name': 'nbconvert-theme-pale-sand-navy',
-    'version': '0.1.0',
+    'version': '0.2.0',
     'packages': [],
     'data_files': data_files,
     'install_requires': [
