@@ -1,0 +1,215 @@
+{%- extends 'display_priority.j2' -%}
+{% from 'celltags.j2' import celltags %}
+
+{% block codecell %}
+{%- if not cell.outputs -%}
+{%- set no_output_class=" code-cell-no-output" -%}
+{%- endif -%}
+{%- if not resources.global_content_filter.include_input -%}
+{%- set no_input_class=" code-cell-no-input" -%}
+{%- endif -%}
+<div class="cell code-cell{{ no_output_class }}{{ no_input_class }}{{ celltags(cell) }}">
+{{ super() }}
+</div>
+{%- endblock codecell %}
+
+{% block input_group -%}
+<table>
+<colgroup>
+    <col>
+    <col style="width:100%">
+</colgroup>
+<tbody>
+{% for line in (cell.source | highlight_code).replace('<div class=" highlight hl-ipython3"><pre><span></span>', '').split('\n')[:-2] -%}
+<tr>
+    <td class="code-line-nr"></td>
+    <td class="code-line">{{ line }}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+{% endblock input_group %}
+
+{% block output_group %}
+<hr class="output-separator">
+{{ super() }}
+{% endblock output_group %}
+
+{% block output_prompt %}
+{% endblock output_prompt %}
+
+{% block markdowncell scoped %}
+<div class="cell cell-markdown">
+{{ cell.source  | markdown2html | strip_files_prefix }}
+</div>
+{%- endblock markdowncell %}
+
+{% block unknowncell scoped %}
+<div class="cell cell-markdown">
+unknown type  {{ cell.type }}
+</div>
+{% endblock unknowncell %}
+
+{% block execute_result -%}
+{%- set extra_class="cell-output" -%}
+{% block data_priority scoped %}
+{{ super() }}
+{% endblock data_priority %}
+{%- set extra_class="" -%}
+{%- endblock execute_result %}
+
+{% block stream_stdout -%}
+<div class="cell-ouput">
+<pre>
+{{- output.text | ansi2html -}}
+</pre>
+</div>
+{%- endblock stream_stdout %}
+
+{% block stream_stderr -%}
+<div class="cell-output cell-output-error">
+<pre>
+{{- output.text | ansi2html -}}
+</pre>
+</div>
+{%- endblock stream_stderr %}
+
+{% block data_svg scoped -%}
+<div class="{{ class }}">
+{%- if output.svg_filename %}
+<img src="{{ output.svg_filename | posix_path }}">
+{%- else %}
+{{ output.data['image/svg+xml'] }}
+{%- endif %}
+</div>
+{%- endblock data_svg %}
+
+{% block data_html scoped -%}
+<div class="{{ class }}">
+{{ output.data['text/html'] }}
+</div>
+{%- endblock data_html %}
+
+{% block data_markdown scoped -%}
+<div class="{{ class }}">
+{{ output.data['text/markdown'] | markdown2html }}
+</div>
+{%- endblock data_markdown %}
+
+{% block data_png scoped %}
+<div class="{{ class }}">
+{%- if 'image/png' in output.metadata.get('filenames', {}) %}
+<img src="{{ output.metadata.filenames['image/png'] | posix_path }}"
+{%- else %}
+<img src="data:image/png;base64,{{ output.data['image/png'] }}"
+{%- endif %}
+{%- set width=output | get_metadata('width', 'image/png') -%}
+{%- if width is not none %}
+width={{ width }}
+{%- endif %}
+{%- set height=output | get_metadata('height', 'image/png') -%}
+{%- if height is not none %}
+height={{ height }}
+{%- endif %}
+{%- if output | get_metadata('unconfined', 'image/png') %}
+class="unconfined"
+{%- endif %}
+>
+</div>
+{%- endblock data_png %}
+
+{% block data_jpg scoped %}
+<div class="{{ class }}">
+{%- if 'image/jpeg' in output.metadata.get('filenames', {}) %}
+<img src="{{ output.metadata.filenames['image/jpeg'] | posix_path }}"
+{%- else %}
+<img src="data:image/jpeg;base64,{{ output.data['image/jpeg'] }}"
+{%- endif %}
+{%- set width=output | get_metadata('width', 'image/jpeg') -%}
+{%- if width is not none %}
+width={{ width }}
+{%- endif %}
+{%- set height=output | get_metadata('height', 'image/jpeg') -%}
+{%- if height is not none %}
+height={{ height }}
+{%- endif %}
+{%- if output | get_metadata('unconfined', 'image/jpeg') %}
+class="unconfined"
+{%- endif %}
+>
+</div>
+{%- endblock data_jpg %}
+
+{% block data_latex scoped %}
+<div class="{{ class }}">
+{{ output.data['text/latex'] | e }}
+</div>
+{%- endblock data_latex %}
+
+{% block error -%}
+<div class="cell-output cell-output-error">
+<pre>
+{{- super() -}}
+</pre>
+</div>
+{%- endblock error %}
+
+{%- block traceback_line %}
+{{ line | ansi2html }}
+{%- endblock traceback_line %}
+
+{%- block data_text scoped %}
+<div class="{{ class }}">
+<pre>
+{{- output.data['text/plain'] | ansi2html -}}
+</pre>
+</div>
+{%- endblock -%}
+
+{% set div_id = uuid4() %}
+{%- block data_javascript scoped %}
+<div id="{{ div_id }}" class="{{ class }}">
+<script type="text/javascript">
+var element = document.getElementById('{{ div_id }}');
+{{ output.data['application/javascript'] }}
+</script>
+</div>
+{%- endblock -%}
+
+{%- block data_widget_state scoped %}
+{% set div_id = uuid4() %}
+{% set datatype_list = output.data | filter_data_type %}
+{% set datatype = datatype_list[0]%}
+<div id="{{ div_id }}" class="{{ class }}">
+<script type="text/javascript">
+var element = document.getElementById('{{ div_id }}');
+</script>
+<script type="{{ datatype }}">
+{{ output.data[datatype] | json_dumps }}
+</script>
+</div>
+{%- endblock data_widget_state -%}
+
+{%- block data_widget_view scoped %}
+{% set div_id = uuid4() %}
+{% set datatype_list = output.data | filter_data_type %}
+{% set datatype = datatype_list[0]%}
+<div id="{{ div_id }}" class="{{ class }}">
+<script type="text/javascript">
+var element = document.getElementById('{{ div_id }}');
+</script>
+<script type="{{ datatype }}">
+{{ output.data[datatype] | json_dumps }}
+</script>
+</div>
+{%- endblock data_widget_view -%}
+
+{%- block footer %}
+{% set mimetype = 'application/vnd.jupyter.widget-state+json'%}
+{% if mimetype in nb.metadata.get("widgets",{})%}
+<script type="{{ mimetype }}">
+{{ nb.metadata.widgets[mimetype] | json_dumps }}
+</script>
+{% endif %}
+{{ super() }}
+{%- endblock footer-%}

@@ -1,0 +1,98 @@
+@import url(https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400%3b700&display=swap);
+
+body {
+    background-color: #ece5ba;
+    margin: 0;
+    font-family: 'Roboto Mono', monospace;
+    color: #14355e;
+}
+
+
+a.anchor-link:link {
+    color: inherit;
+    text-decoration: none;
+    padding-left: 10px;
+    visibility: hidden;
+}
+
+a.anchor-link:active {
+    color: inherit;
+}
+
+h1:hover .anchor-link,
+h2:hover .anchor-link,
+h3:hover .anchor-link,
+h4:hover .anchor-link,
+h5:hover .anchor-link,
+h6:hover .anchor-link {
+    visibility: visible;
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+.cell {
+    width: 60%;
+    margin: 0 auto;
+}
+
+.code-cell {
+    margin-top: 20px;
+    background-color: #14355e;
+    color: #ece5ba;
+    padding: 20px;
+    border-radius: 7px;
+}
+
+.code-cell .code-line-nr {
+    vertical-align: top;
+    text-align: right;
+    padding-right: 10px;
+}
+
+.code-cell .code-line {
+    white-space: pre-wrap;
+    color: #ffffff;
+}
+
+.code-cell .output-separator {
+    margin: 15px 0;
+    border: 1px solid #ece5ba;
+    background-color: #ece5ba;
+    border-radius: 1px;
+}
+
+/* string */
+.code-cell .code-line .s1,
+.code-cell .code-line .s2 {
+    color: #dda686;
+}
+
+/* comment */
+.code-cell .code-line .c1 {
+    color: #719271;
+}
+
+/* number */
+.code-cell .code-line .mi {
+    color: #9bff9b;
+}
+
+/* keywords */
+.code-cell .code-line .k,
+.code-cell .code-line .kn,
+.code-cell .code-line .ow {
+    color: #d894ff;
+}
+
+/* dataframe */
+.dataframe {
+    border-collapse: collapse;
+}
+
+.dataframe td,
+.dataframe th {
+    border: 2px solid #ece5ba;
+    padding: 5px;
+}
