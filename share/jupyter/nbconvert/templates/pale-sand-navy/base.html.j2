@@ -20,10 +20,11 @@
     <col style="width:100%">
 </colgroup>
 <tbody>
-{% for line in (cell.source | highlight_code).replace('<div class=" highlight hl-ipython3"><pre><span></span>', '').split('\n')[:-2] -%}
+{%- set code_lines=(cell.source | highlight_code).replace('<div class=" highlight hl-ipython3"><pre><span></span>', '').split('\n')[:-2] -%}
+{% for line_nr in range(code_lines | length) -%}
 <tr>
-    <td class="code-line-nr"></td>
-    <td class="code-line">{{ line }}</td>
+    <td class="code-line-nr">{{ line_nr + 1 }}</td>
+    <td class="code-line">{{ code_lines[line_nr] }}</td>
 </tr>
 {% endfor %}
 </tbody>
