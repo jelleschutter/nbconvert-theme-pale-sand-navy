@@ -206,6 +206,11 @@ var element = document.getElementById('{{ div_id }}');
 {%- endblock data_widget_view -%}
 
 {%- block footer %}
+<footer><a href="https://github.com/jelleschutter/nbconvert-theme-pale-sand-navy">Pale Sand Navy Theme</a> by <a href="https://github.com/jelleschutter">Jelle Schutter</a></footer>
+{{ super() }}
+{%- endblock footer -%}
+
+{%- block footer_js %}
 {% set mimetype = 'application/vnd.jupyter.widget-state+json'%}
 {% if mimetype in nb.metadata.get("widgets",{})%}
 <script type="{{ mimetype }}">
@@ -213,4 +218,4 @@ var element = document.getElementById('{{ div_id }}');
 </script>
 {% endif %}
 {{ super() }}
-{%- endblock footer-%}
+{%- endblock footer_js -%}
