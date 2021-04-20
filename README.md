@@ -1,5 +1,7 @@
 # nbconvert-theme-pale-sand-navy
-This is a theme for the jupyter nbconvert extension. Checkout an example [here](https://jelle.schutter.xyz/fhnw-ds-daw-fs2021-covid/).
+This is a theme for the jupyter nbconvert extension. Checkout the screenshot below which was created from [this project](https://jelle.schutter.xyz/fhnw-ds-daw-fs2021-covid/).
+
+![Screenshot](https://user-images.githubusercontent.com/27961514/115474118-0e352200-a23d-11eb-8600-86ba8a3e1de9.png)
 ## Installation
 ```bash
 pip install nbconvert-theme-pale-sand-navy
