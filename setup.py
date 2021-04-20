@@ -44,6 +44,9 @@ for root, dirs, files in os.walk('share'):
     root_files = [os.path.join(root, i) for i in files]
     data_files.append((root, root_files))
 
+with open('README.md', 'r') as readme:
+    long_description = readme.read()
+
 setup_args = {
     'name': 'nbconvert-theme-pale-sand-navy',
     'version': '0.2.0',
@@ -53,6 +56,8 @@ setup_args = {
     ],
     'author': 'Jelle Schutter',
     'author_email': 'jelle@schutter.xyz',
+    'long_description': long_description,
+    'long_description_content_type': 'text/markdown',
     'url': 'https://github.com/jelleschutter/nbconvert-theme-pale-sand-navy',
     'cmdclass': {
         'develop': DevelopCmd,
