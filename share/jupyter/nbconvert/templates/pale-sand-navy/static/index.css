@@ -38,6 +38,7 @@ h1, h2 {
 }
 
 .code-cell {
+    box-sizing: border-box;
     margin-top: 20px;
     background-color: #14355e;
     color: #ece5ba;
@@ -95,4 +96,24 @@ h1, h2 {
 .dataframe th {
     border: 2px solid #ece5ba;
     padding: 5px;
+}
+
+/* responsive */
+@media screen and (max-width: 1024px) {
+    .cell {
+        width: 80%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .cell {
+        width: 90%;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .cell {
+        width: calc(100% - 20px);
+        margin: 20px 10px 0 10px;
+    }
 }
