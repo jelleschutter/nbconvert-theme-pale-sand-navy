@@ -54,6 +54,7 @@ h1, h2 {
     vertical-align: top;
     text-align: right;
     padding-right: 10px;
+    user-select: none;
 }
 
 .code-cell .code-line {
