@@ -49,7 +49,7 @@ with open('README.md', 'r') as readme:
 
 setup_args = {
     'name': 'nbconvert-theme-pale-sand-navy',
-    'version': '0.3.0',
+    'version': '0.3.1',
     'packages': [],
     'data_files': data_files,
     'install_requires': [
